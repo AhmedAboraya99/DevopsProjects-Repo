@@ -4,7 +4,10 @@
   become: true  # Assuming you need elevated privileges for package installation
 
   tasks:
-    - name: Install htop
+    - name: Install packages
       apt:
-        name: htop
+        name: 
+              - htop
+              - mc
+              - tmux
         state: present  # You can add state: present to explicitly install the package
