@@ -3,11 +3,10 @@
   connection: local
   become: true  # Assuming you need elevated privileges for package installation
 
+  pre_tasks:
+    - name: update repositories
+    apt:
+        update_cache: yes
+        changed_when: False
   tasks:
-    - name: Install packages
-      apt:
-        name: 
-              - htop
-              - mc
-              - tmux
-        state: present  # You can add state: present to explicitly install the package
+    - include: tasks/packages.yml

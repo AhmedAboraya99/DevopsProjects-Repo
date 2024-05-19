@@ -1,0 +1,9 @@
+---
+
+- name: Install packages
+  apt:
+    name: 
+          - htop
+          - mc
+          - tmux
+    state: present  # You can add state: present to explicitly install the package
