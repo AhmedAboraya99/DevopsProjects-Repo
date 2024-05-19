@@ -1,8 +1,10 @@
-- hosts: all
+---
+- hosts: localhost  # Assuming you have your target hosts defined in your inventory
   connection: local
-  become: true
-  
+  become: true  # Assuming you need elevated privileges for package installation
+
   tasks:
-  - name: Install htop
-  apt:
-  name: htop
+    - name: Install htop
+      apt:
+        name: htop
+        state: present  # You can add state: present to explicitly install the package
