@@ -106,4 +106,3 @@ ansible-vault edit vault.yml
 ## Author
 
 Ahmed Aboraya
-```
