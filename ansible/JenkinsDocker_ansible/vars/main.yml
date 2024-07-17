@@ -1,0 +1,4 @@
+---
+# vars file for JenkinsDocker_ansible
+ansible_host: 172.31.202.203
+remote_user: ansible-user

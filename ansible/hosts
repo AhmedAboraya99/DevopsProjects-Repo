@@ -1,0 +1,9 @@
+[web_servers]
+172.31.202.203
+
+[docker_jenkins]
+172.31.202.203
+
+[db_servers]
+
+

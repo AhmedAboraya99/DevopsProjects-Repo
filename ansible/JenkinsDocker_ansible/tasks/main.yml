@@ -1,0 +1,93 @@
+- name: Update apt package index
+  apt:
+    update_cache: yes
+
+- name: docker configurations for host
+  block:
+    - name: Install required Docker packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+        state: present
+
+    - name: Install Docker Engine
+      apt:
+        name: docker-ce
+
+    - name: Ensure Docker service is started
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add current user to the Docker group
+      user:
+        name: "{{ remote_user }}"
+        groups: docker
+        append: yes
+  when: ansible_distribution == "Ubuntu"
+  tags: docker
+
+- name: Jenkins configuration tasks
+  block:
+    - name: Install Jenkins dependencies
+      apt:
+        name:
+          - openjdk-17-jre
+          - fontconfig
+          - unzip
+        state: present
+
+    - name: Add Jenkins repository key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        state: present
+
+    - name: Add Jenkins repository
+      apt_repository:
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+        state: present
+        update_cache: yes  # Optional, defaults to yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Install required Jenkins plugins (optional)
+      community.general.jenkins_plugin:
+        name: "{{ item }}"
+        url: "http://{{ ansible_host }}:8080"
+        url_username: "ahmedaboraya99"
+        url_password: "{{ jenkins_admin_password }}"
+        state: present
+      loop:
+        - git
+        - docker
+      register: plugins_result
+
+    - name: Reload Jenkins configuration after installing plugins (optional)
+      service:
+        name: jenkins
+        state: restarted
+      when: plugins_result.changed  # Only run if plugins were installed
+  when: ansible_distribution == "Ubuntu"
+  tags: jenkins

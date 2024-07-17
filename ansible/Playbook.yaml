@@ -1,0 +1,10 @@
+- name: My Playbook
+  hosts: docker_jenkins
+  become: true  # Required for package installation and service management
+  gather_facts: true  # Ensures distribution detection works
+  
+  vars_files:
+    - vault.yml
+ 
+  roles:
+    - JenkinsDocker_ansible

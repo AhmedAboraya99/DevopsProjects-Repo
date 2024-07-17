@@ -1,0 +1,28 @@
+[defaults]
+
+# Inventory location
+inventory = ./hosts
+
+# Connection options
+remote_user = ansible  # Change this if using a different user
+connection = ssh  # Adjust if using a different connection type
+# Outputverbosity
+# verbosity = 3  # Increase for more verbose output (1-5)
+
+# Cache settings
+#cache_valid_time = 3600  # Cache for 1 hour
+
+# Module search path (optional)
+# uncomment and add additional paths if needed
+# module_path = /path/to/custom/modules
+private_key_file = ~/etc/.ssh/ansible
+# SSH key file (optional, uncomment if using a key file)
+#ansible_ssh_private_key_file = /path/to/your/key.pem
+
+# Control SSH StrictHostKeyChecking (not recommended for production)
+#ansible_host_key_checking = False
+
+# Enable additional callback plugins (optional)
+# uncomment and add desired plugins
+# callback = yaml  # Enable YAML output format
+
